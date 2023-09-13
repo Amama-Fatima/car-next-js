@@ -56,5 +56,6 @@ export interface ShowMoreProps{
 }
 
 export interface HomeProps {
+    allCars: CarProps[];
     searchParams: FilterProps;
   }

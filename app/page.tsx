@@ -1,19 +1,14 @@
 import { CarCard, CustomFilter, Hero, SearchBar, ShowMore } from '@/components'
 import { fuels, yearsOfProduction } from '@/constants';
-import { HomeProps } from '@/types';
+import { FilterProps, HomeProps } from '@/types';
 import { fetchCars } from '@/utils'
+import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image'
 
-export default async function Home({searchParams}: HomeProps) {
+export default async function Home({allCars, searchParams}: HomeProps) {
 
 
-  const allCars = await fetchCars({
-    manufacturer: searchParams?.manufacturer || '',
-    year: searchParams?.year || 2022,
-    fuel: searchParams?.fuel || '',
-    limit: searchParams?.limit || 10,
-    model: searchParams?.model || '',
-  })
+  
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
 
 
@@ -55,7 +50,7 @@ export default async function Home({searchParams}: HomeProps) {
                 No Cars Found 
               </h2>
               <p>
-                {allCars?.message}
+                Sorry. No Cars
               </p>
 
             </div>
@@ -65,3 +60,25 @@ export default async function Home({searchParams}: HomeProps) {
     </main>
   )
 }
+
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const searchParams: FilterProps = {
+    manufacturer: context.query.manufacturer as string || '',
+    year: parseInt(context.query.year as string) || 2022,
+    fuel: context.query.fuel as string || '',
+    limit: parseInt(context.query.limit as string) || 10,
+    model: context.query.model as string || '',
+  };
+  
+  const allCars = await fetchCars(searchParams);
+
+  return {
+    props: {
+      allCars,
+      searchParams,
+    },
+  };
+}
+
