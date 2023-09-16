@@ -68,8 +68,7 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => (
                       <Image src='/hero.png' alt='car model' fill priority className='object-contain' />
                     </div>
                     <div className='flex-1 relative w-full h-24 bg-primary-blue-100 rounded-lg'>
-                      <Image  src='.
-                      /hero.png' alt='car model' fill priority className='object-contain' />
+                      <Image  src='/hero.png' alt='car model' fill priority className='object-contain' />
                     </div>
                   </div>
                 </div>
